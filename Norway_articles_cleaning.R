@@ -1,4 +1,39 @@
 
+setwd("C:/Users/Meli/CEU/CEU_BA_MD/Winter/DS on Unstructured Data/project")
+
+library(GuardianR) #nice API for downloading data, need to set up key
+library(stringr)
+library(tidyverse)
+library(tidytext)
+library(lubridate)
+library(rvest)
+library(ggplot2)
+library(ggrepel)  # label - repel them based on a physics automation
+library(scales) # set x-y axis to sthng usable
+
+Sys.setenv(TZ='Europe/Budapest') #IMPORTANT
+
+###################################
+# OBTAIN ARTICLES
+###################################
+todays_date <- as.character(as.Date(now()))
+start_date <- as.character(as.Date(now() - years(1)))
+
+#guardian_access_key <- Sys.getenv("51efc458-e8ec-47a2-891e-b152d68a09d8")
+## takes a few minutes
+if (! file.exists("articles_romania_2017_p1.csv")) {
+  articles <- get_guardian(keywords = "Romania",
+                           #   section = c("world","economy", "opinion","national","politics","society"),
+                           from.date = "2017-01-01",
+                           to.date = "2017-06-30",
+                           api.key = "API KEY")
+  
+  write_csv(articles, "articles_romania_2017_p1.csv", row.names = F) 
+  # done in bits for varios periods, merged afterwards
+} 
+
+
+
 ###################################
 # DATA CLEANING
 ###################################
